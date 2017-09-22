@@ -1,31 +1,68 @@
-const webpack = require("webpack");
+"use strict";
+var webpack = require('webpack');
+var path = require('path');
+var loaders = require('./webpack.loaders');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var DashboardPlugin = require('webpack-dashboard/plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HOST = process.env.HOST || "127.0.0.1";
+const PORT = process.env.PORT || "8001";
 
+loaders.push({
+    test: /\.scss$/,
+    loaders: ['styles-loader', 'css-loader?importLoaders=1', 'sass-loader'],
+    exclude: ['node_modules']
+});
 module.exports = {
-  entry: [
-    './src/index.js'
-  ],
-  output: {
-    path: __dirname,
-    publicPath: '/',
-    filename: 'bundle.js'
-  },
-  module: {
-    loaders: [{
-      exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: ['react', 'es2015', 'stage-1']
-      }
-    }]
-  },
-    plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    entry: [
+        'react-hot-loader/patch',
+        './src/index.jsx', // your app's entry point
     ],
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  devServer: {
-    historyApiFallback: true,
-    contentBase: './'
-  }
+    devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
+    output: {
+        publicPath: '/',
+        path: path.join(__dirname, 'public'),
+        filename: 'bundle.js'
+    },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
+    module: {
+        loaders
+    },
+    devServer: {
+        contentBase: "./public",
+        headers: {
+            "Access-Control-Allow-Origin": "http://localhost:8001",
+            "Access-Control-Allow-Credentials": "true",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization, x-id, Content - Length, X - Requested - With",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        // do not print bundle build stats
+        noInfo: true,
+        // enable HMR
+        hot: true,
+        // embed the webpack-dev-server runtime into the bundle
+        inline: true,
+        // serve index.html in place of 404 responses to allow HTML5 history
+        historyApiFallback: true,
+        port: PORT,
+        host: HOST
+    },
+    plugins: [
+
+        new webpack.HotModuleReplacementPlugin(),
+        new ExtractTextPlugin({
+            filename: 'style.css',
+            allChunks: true
+        }),
+        new DashboardPlugin(),
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            files: {
+                css: ['style.css'],
+                js: ["bundle.js"],
+            }
+        }),
+    ]
 };
