@@ -10,13 +10,13 @@ const PORT = process.env.PORT || "8001";
 
 loaders.push({
     test: /\.scss$/,
-    loaders: ['styles-loader', 'css-loader?importLoaders=1', 'sass-loader'],
+    loaders: ['style-loader', 'css-loader?importLoaders=1', 'sass-loader'],
     exclude: ['node_modules']
 });
 module.exports = {
     entry: [
         'react-hot-loader/patch',
-        './src/index.jsx', // your app's entry point
+        './src/index.js', // your app's entry point
     ],
     devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
     output: {
@@ -31,13 +31,8 @@ module.exports = {
         loaders
     },
     devServer: {
-        contentBase: "./public",
-        headers: {
-            "Access-Control-Allow-Origin": "http://localhost:8001",
-            "Access-Control-Allow-Credentials": "true",
-            "Access-Control-Allow-Headers": "Content-Type, Authorization, x-id, Content - Length, X - Requested - With",
-            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
-        },
+        contentBase: "./src",
+
         // do not print bundle build stats
         noInfo: true,
         // enable HMR

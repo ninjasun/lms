@@ -10,19 +10,20 @@ class Header extends Component {
                 <Link className="nav-link" to="/signout">Sign Out</Link>
             </li>
         } else {
-            return [<li className="nav-item">
-                <Link className="nav-link" to="/signin">Sign In</Link>
-            </li>,
-                <li className="nav-item">
-                    Sign Up
-                </li>
-            ];
+            return [
+                <li className="nav-item" key={1}>
+                    <Link className="nav-link" to="/signin">Sign In</Link>
+                </li>,
+                    <li className="nav-item" key={2}>
+                        <Link className="nav-link" to="/signup">Sign Up</Link>
+                    </li>
+                ];
         }
     }
 
     render() {
         return (
-            <header>
+            <header className="header">
                 <nav className="navBar navbar-light">
                     <Link to='/' className="navbar-brand">Logo</Link>
                     <ul className="nav navbar-nav">

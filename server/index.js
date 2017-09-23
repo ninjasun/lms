@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost:auth/auth');
 
 // App Setup
 app.use(morgan('combined'));
-app.use(cors()); //cors is another middleware that specificaly handle cors
+app.use(cors());
 app.use(bodyParser.json({ type: '*/*' }));
 router(app);
 

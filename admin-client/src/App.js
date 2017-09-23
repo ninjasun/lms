@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-
+import '../styles/index.scss';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
@@ -20,7 +20,6 @@ import {AUTH_USER} from "./actions/types";
 export default class App extends Component {
 
     render() {
-
 
         const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
         const store = createStoreWithMiddleware(reducers);
