@@ -4,7 +4,8 @@ import {
     AUTH_USER,
     UNAUTH_USER,
     AUTH_ERROR,
-    FETCH_COURSES
+    FETCH_COURSES,
+    ADD_COURSE
 } from './types';
 
 const ROOT_URL = 'http://localhost:3090';
@@ -79,4 +80,26 @@ export function signupUser({email, password}){
             });
     }
 }
+
+export function addCourse({title, description, imgPath, categories}){
+    return function(dispatch) {
+        // Submit email/password to the server
+        axios.post(`${ROOT_URL}/`, { title, description, imgPath, categories })
+            .then(response => {
+
+                dispatch({
+                    type: ADD_COURSE,
+                    payload: response.data.id
+                });
+
+                browserHistory.push('/courses');
+            })
+            .catch(() => {
+                // If request is bad...
+                // - Show an error to the user
+                console.log("Error creating a new course: ", response.data)
+            });
+    }
+}
+
 

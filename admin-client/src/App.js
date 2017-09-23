@@ -9,7 +9,7 @@ import Signin from './components/auth/signin';
 import Signout from './components/auth/signout';
 import Signup from './components/auth/signup';
 import Courses from './components/courses';
-
+import AddCourse from './components/addCourse'
 import reducers from './reducers';
 
 import reduxThunk from 'redux-thunk';
@@ -41,6 +41,7 @@ export default class App extends Component {
                         <Route path="signout" component={Signout}/>
                         <Route path="signup" component={Signup}/>
                         <Route path="courses" component={RequireAuth(Courses)}/>
+                        <Route path="create" component={RequireAuth(AddCourse)} />
                     </Route>
                 </Router>
             </Provider>
