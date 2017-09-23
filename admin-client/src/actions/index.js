@@ -1,27 +1,28 @@
 import axios from 'axios';
-import { browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
 import {
     AUTH_USER,
     UNAUTH_USER,
     AUTH_ERROR,
     FETCH_COURSES,
-    ADD_COURSE
+    ADD_COURSE,
+    ADD_COURSE_ERROR
 } from './types';
 
 const ROOT_URL = 'http://localhost:3090';
 
-export function signinUser({ email, password }) {
-    return function(dispatch) {
+export function signinUser({email, password}) {
+    return function (dispatch) {
         // Submit email/password to the server
-        axios.post(`${ROOT_URL}/signin`, { email, password })
+        axios.post(`${ROOT_URL}/signin`, {email, password})
             .then(response => {
                 // If request is good...
                 // - Update state to indicate user is authenticated
-                dispatch({ type: AUTH_USER });
+                dispatch({type: AUTH_USER});
                 // - Save the JWT token
                 localStorage.setItem('token', response.data.token);
                 // - redirect to the route '/feature'
-                browserHistory.push('/courses');
+                browserHistory.push('/');
             })
             .catch(() => {
                 // If request is bad...
@@ -31,14 +32,21 @@ export function signinUser({ email, password }) {
     }
 }
 
-export function authError(error){
+export function authError(error) {
     return {
         type: AUTH_ERROR,
         payload: error
     }
 }
 
-export function signoutUser(){
+export function addCourseError(error) {
+    return {
+        type: ADD_COURSE_ERROR,
+        payload: error
+    }
+}
+
+export function signoutUser() {
     localStorage.removeItem('token');
 
     return {
@@ -46,11 +54,11 @@ export function signoutUser(){
     }
 }
 
-export function fetchCourses(){
+export function fetchCourses() {
     console.log("fetchCourses")
-    return function(dispatch){
+    return function (dispatch) {
         axios.get(ROOT_URL, {
-            headers: { authorization: localStorage.getItem('token') }
+            headers: {authorization: localStorage.getItem('token')}
         })
             .then(response => {
                 dispatch({
@@ -61,19 +69,19 @@ export function fetchCourses(){
     }
 }
 
-export function signupUser({email, password}){
-    return function(dispatch) {
+export function signupUser({email, password}) {
+    return function (dispatch) {
         // Submit email/password to the server
-        axios.post(`${ROOT_URL}/signup`, { email, password })
+        axios.post(`${ROOT_URL}/signup`, {email, password})
             .then(response => {
 
-                dispatch({ type: AUTH_USER });
+                dispatch({type: AUTH_USER});
                 // - Save the JWT token
                 localStorage.setItem('token', response.data.token);
 
-                browserHistory.push('/courses');
+                browserHistory.push('/');
             })
-            .catch(() => {
+            .catch(response => {
                 // If request is bad...
                 // - Show an error to the user
                 dispatch(authError(response.data.error));
@@ -81,10 +89,13 @@ export function signupUser({email, password}){
     }
 }
 
-export function addCourse({title, description, imgPath, categories}){
-    return function(dispatch) {
+export function addCourse({title, description, imgPath, categories}) {
+    return function (dispatch) {
         // Submit email/password to the server
-        axios.post(`${ROOT_URL}/`, { title, description, imgPath, categories })
+        axios.post(`${ROOT_URL}/courses`,
+            {title, description, imgPath, categories},
+            {headers: {authorization: localStorage.getItem('token')}}
+        )
             .then(response => {
 
                 dispatch({
@@ -94,12 +105,10 @@ export function addCourse({title, description, imgPath, categories}){
 
                 browserHistory.push('/courses');
             })
-            .catch(() => {
+            .catch(response => {
                 // If request is bad...
                 // - Show an error to the user
-                console.log("Error creating a new course: ", response.data)
+                dispatch(addCourseError(response.data.error));
             });
     }
 }
-
-

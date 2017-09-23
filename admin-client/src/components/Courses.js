@@ -14,6 +14,7 @@ class Courses extends Component {
 
     }
     componentWillReceiveProps(nextProps){
+        console.log("nextProps is: ", nextProps)
         if (typeof this.props.coursesList === 'undefined'){
             this.setState({
                 coursesList:nextProps.coursesList

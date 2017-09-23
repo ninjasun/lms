@@ -3,7 +3,8 @@ import {
     UNAUTH_USER,
     AUTH_ERROR,
     FETCH_COURSES,
-    ADD_COURSE
+    ADD_COURSE,
+    ADD_COURSE_ERROR
 } from "../actions/types";
 
 export default function(state = [], action){
@@ -17,7 +18,9 @@ export default function(state = [], action){
         case FETCH_COURSES:
             return { ...state, coursesList:action.payload };
         case ADD_COURSE:
-            return { ...state, id: action.payload}
+            return { ...state, id: action.payload};
+        case ADD_COURSE_ERROR:
+            return {...state, error: action.payload}
     }
     return state;
 }

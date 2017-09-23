@@ -45,7 +45,7 @@ class AddCourse extends Component {
 
                 <fieldset className="form-group">
                     <label> Categories:</label>
-                    <input className="form-control" {...title} />
+                    <input className="form-control" {...categories} />
                     {categories.touched && categories.error && <div className="error">{categories.error}</div>}
                 </fieldset>
 
