@@ -7,18 +7,20 @@ class Courses extends Component {
         coursesList : []
     }
     componentWillMount(){
-        this.props.fetchMessage();
+        this.props.fetchCourses();
+        console.log("fetching courses")
     }
     componentDidMount(){
 
     }
     componentWillReceiveProps(nextProps){
-        console.log("nextProps.coursesList is: ", nextProps.coursesList)
-        this.setState(
-            {
-                list: nextProps.coursesList
-            }
-        )
+        if (typeof this.props.coursesList === 'undefined'){
+            this.setState({
+                coursesList:nextProps.coursesList
+            })
+        } else {
+          return
+        }
     }
     render() {
 

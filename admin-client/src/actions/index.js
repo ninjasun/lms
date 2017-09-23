@@ -20,7 +20,7 @@ export function signinUser({ email, password }) {
                 // - Save the JWT token
                 localStorage.setItem('token', response.data.token);
                 // - redirect to the route '/feature'
-                browserHistory.push('/feature');
+                browserHistory.push('/courses');
             })
             .catch(() => {
                 // If request is bad...
@@ -45,7 +45,8 @@ export function signoutUser(){
     }
 }
 
-export function fetchMessage(){
+export function fetchCourses(){
+    console.log("fetchCourses")
     return function(dispatch){
         axios.get(ROOT_URL, {
             headers: { authorization: localStorage.getItem('token') }
