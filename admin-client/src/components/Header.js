@@ -8,6 +8,10 @@ class Header extends Component {
         if (this.props.authenticated) {
             return [
                 <li className="nav-item">
+                    <Link className="nav-link" to="/assignment">Assignment</Link>
+                </li>,
+
+                <li className="nav-item">
                     <Link className="nav-link" to="/create">Create a Course</Link>
                 </li>,
                 <li className="nav-item">

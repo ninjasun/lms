@@ -6,7 +6,10 @@ import {
     AUTH_ERROR,
     FETCH_COURSES,
     ADD_COURSE,
-    ADD_COURSE_ERROR
+    ADD_COURSE_ERROR,
+    FETCH_ASSIGNMENT,
+    ADD_ASSIGNMENT,
+    ADD_ASSIGNMENT_ERROR
 } from './types';
 
 const ROOT_URL = 'http://localhost:3090';
@@ -43,6 +46,12 @@ export function addCourseError(error) {
     return {
         type: ADD_COURSE_ERROR,
         payload: error
+    }
+}
+export function addAssignmentError(error) {
+    return {
+        type: ADD_ASSIGNMENT_ERROR,
+        payload:error
     }
 }
 
@@ -109,6 +118,46 @@ export function addCourse({title, description, imgPath, categories}) {
                 // If request is bad...
                 // - Show an error to the user
                 dispatch(addCourseError(response.data.error));
+            });
+    }
+}
+
+export function fetchAssignment() {
+    console.log("fetchAssignment")
+    return function (dispatch) {
+        axios.get(`${ROOT_URL}/assignment`, {
+            headers: {authorization: localStorage.getItem('token')}
+        })
+            .then(response => {
+                dispatch({
+                    type: FETCH_ASSIGNMENT,
+                    payload: response.data.assignmentList
+                })
+            })
+    }
+}
+
+
+export function addAssignment({title, description, users, courses}) {
+    return function (dispatch) {
+        // Submit email/password to the server
+        axios.post(`${ROOT_URL}/assignment`,
+            {title, description, users, courses},
+            {headers: {authorization: localStorage.getItem('token')}}
+        )
+            .then(response => {
+
+                dispatch({
+                    type: ADD_ASSIGNMENT,
+                    payload: response.data.id
+                });
+
+                browserHistory.push('/assignment');
+            })
+            .catch(response => {
+                // If request is bad...
+                // - Show an error to the user
+                dispatch(addAssignmentError(response.data.error));
             });
     }
 }

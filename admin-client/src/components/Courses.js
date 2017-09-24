@@ -27,6 +27,7 @@ class Courses extends Component {
 
         return (
             <div>
+
                 <ul>
                 {this.state.coursesList.map( (item) =>
                     <li key={item.id}>{item.title}</li>

@@ -5,11 +5,14 @@ import {createStore, applyMiddleware} from 'redux';
 import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
 import Layout from './components/layout';
+
 import Signin from './components/auth/signin';
 import Signout from './components/auth/signout';
 import Signup from './components/auth/signup';
 import Courses from './components/courses';
-import AddCourse from './components/addCourse'
+import AddCourse from './components/addCourse';
+import Assignment from './components/assignment';
+
 import reducers from './reducers';
 
 import reduxThunk from 'redux-thunk';
@@ -42,6 +45,7 @@ export default class App extends Component {
                         <Route path="signup" component={Signup}/>
                         <Route path="courses" component={RequireAuth(Courses)}/>
                         <Route path="create" component={RequireAuth(AddCourse)} />
+                        <Route path="assignment" component={RequireAuth(Assignment)} />
                     </Route>
                 </Router>
             </Provider>

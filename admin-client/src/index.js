@@ -6,7 +6,7 @@ import App from './app.js';
 render( <AppContainer><App/></AppContainer>, document.querySelector("#app"));
 
 if (module && module.hot) {
-    module.hot.accept('./app.js', () => {
+    module.hot.accept('./Layout.js', () => {
         const App = require('./app.js').default;
         render(
             <AppContainer>

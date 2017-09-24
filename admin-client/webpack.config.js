@@ -10,7 +10,7 @@ const PORT = process.env.PORT || "8001";
 
 loaders.push({
     test: /\.scss$/,
-    loaders: ['style-loader', 'css-loader?importLoaders=1', 'sass-loader'],
+    loaders: ['styles-loader', 'css-loader?importLoaders=1', 'sass-loader'],
     exclude: ['node_modules']
 });
 module.exports = {
